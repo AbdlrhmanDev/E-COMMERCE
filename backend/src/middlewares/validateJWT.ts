@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response, RequestHandler } from "express";
-import jwt from 'jsonwebtoken';
+import jwt, { TokenExpiredError } from 'jsonwebtoken';
 import { UserModel } from "../models/userModel";
 import { ExtendedRequest } from "../types/ExtendedRequest";
 
@@ -23,7 +23,19 @@ const validateJWT: RequestHandler = (req: ExtendedRequest, res: Response, next: 
   jwt.verify(token, "mec7fsReLFZMjEj7jxXdPCZ926tEZrBD", async (err, payload) => {
     //TODO: check if this is the correct way to do this
     if(err) {
-      res.status(403).send("Invalid token");
+      if (err instanceof TokenExpiredError) {
+        res.status(401).json({
+          error: 'Token expired',
+          message: 'Your session has expired. Please log in again.',
+          expiredAt: err.expiredAt
+        });
+        return;
+      }
+      console.log(err);
+      res.status(403).json({
+        error: 'Invalid token',
+        message: 'The provided token is invalid'
+      });
       return;
     }
     //TODO: check if this is the correct way to do this
