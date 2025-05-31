@@ -20,7 +20,7 @@ const validateJWT: RequestHandler = (req: ExtendedRequest, res: Response, next: 
     return;
   }
   //TODO: check if this is the correct way to do this
-  jwt.verify(token, "mec7fsReLFZMjEj7jxXdPCZ926tEZrBD", async (err, payload) => {
+  jwt.verify(token, process.env.JWT_SECRET || "", async (err, payload) => {
     //TODO: check if this is the correct way to do this
     if(err) {
       if (err instanceof TokenExpiredError) {

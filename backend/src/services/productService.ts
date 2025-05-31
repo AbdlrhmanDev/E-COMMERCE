@@ -5,10 +5,11 @@ export const getAllProducts = async () => {
     return products;
 }
 
-export const seadInitalProducts =  async() => {
-    const products = [
-        {
-            name: "Wireless Noise Cancelling Headphones",
+export const seedInitialProducts = async (): Promise<{ success: boolean; message: string }> => {
+    try {
+        const products = [
+            {
+                name: "Wireless Noise Cancelling Headphones",
             image: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=500&auto=format",
             price: 299.99,
             category: "Electronics",
@@ -88,13 +89,18 @@ export const seadInitalProducts =  async() => {
             description: "16 million colors, voice control, and music sync"
         }
     ];
-
-
     const existingProducts = await getAllProducts();
 
-    if(existingProducts.length === 0){
+    if (existingProducts.length === 0) {
         await ProductModel.insertMany(products);
+        return { success: true, message: 'Products seeded successfully' };
     }
-
-
+    return { success: true, message: 'Products already exist in database' };
+    } catch (error) {
+        console.error('Error in seedInitialProducts:', error);
+        return { 
+            success: false, 
+            message: error instanceof Error ? error.message : 'Failed to seed products'
+        };
+    }
 }
