@@ -1,6 +1,6 @@
 import express, { Request, Response, NextFunction, response } from "express";
 import { CartModel } from "../models/cartModel";
-import { addItemToCart, clearCart, getActiveCartForUser, removeItemFromCart, updateItemInCart } from "../services/cartService";
+import { addItemToCart, checkoutCart, clearCart, getActiveCartForUser, removeItemFromCart, updateItemInCart } from "../services/cartService";
 import validateJWT from "../middlewares/validateJWT";
 import { ExtendedRequest } from "../types/ExtendedRequest";
 
@@ -53,5 +53,19 @@ router.delete("/items/:itemId", validateJWT, async (req: ExtendedRequest, res: R
         res.status(500).json({ message: "Internal server error" });
     }
 });
+
+
+router.post("/checkout", validateJWT, async (req: ExtendedRequest, res: Response) => {
+    const userId = req.user._id;
+    const { address } = req.body;
+    const response = await checkoutCart({userId, address});
+    
+    if (response) {
+        res.status(response.statusCode).json(response.data);
+    } else {
+        res.status(500).json({ message: "Internal server error" });
+    }
+});
+
 
 export default router;
