@@ -28,8 +28,9 @@ function App() {
                <Route element={<ProtectedRoute />}>
               <Route path="/cart" element={<Cart />} />
               <Route path="/checkout" element={<Checkout />} />
-              <Route path="/orders" element={<Orders />} />
+              <Route path="/my-orders" element={<Orders />} />
                 <Route path="/order-Success" element={<OrderSuccess />} />
+                
             </Route>
             <Route path="*" element={<NotFound />} />
           </Routes>
