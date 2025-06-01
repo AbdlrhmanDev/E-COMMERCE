@@ -9,7 +9,7 @@ const router = express.Router();
 router.get("/", validateJWT, async (req: ExtendedRequest, res: Response) => {
     try {
         const userId = req.user._id;
-        const cart = await getActiveCartForUser({ userId });
+        const cart = await getActiveCartForUser({ userId , populate: true});
         res.status(200).json(cart);
     } catch (error) {
         res.status(500).json({ message: "Internal server error" });

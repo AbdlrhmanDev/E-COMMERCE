@@ -18,15 +18,24 @@ const createCartForUser = async ({ userId }: CreateCartForUser) => {
 
 interface GetActiveCartForUser {
     userId: string;
+    populate?: boolean;
 }
 
-export const getActiveCartForUser = async ({ userId }: GetActiveCartForUser) => {
+export const getActiveCartForUser = async ({ userId, populate }: GetActiveCartForUser) => {
     try {
-        let cart = await CartModel.findOne({ userId, status: "active" });
+
+        let cart; 
+        if (populate) {
+            cart = await CartModel.findOne({ userId, status: "active" }).populate("items.product");
+        } else {
+            cart = await CartModel.findOne({ userId, status: "active" });
+        }
 
         if (!cart) {
             cart = await createCartForUser({ userId });
         }
+
+      
 
         return cart;
     } catch (error) {
@@ -83,9 +92,8 @@ export const addItemToCart = async ({ userId, productId, quantity }: AddItemToCa
         });
 
         cart.totalPrice += product.price * quantity;
-
-        const updatedCart = await cart.save();
-        return { data: updatedCart, statusCode: 200 };
+ await cart.save();
+        return { data: await getActiveCartForUser({ userId, populate: true }), statusCode: 200 };
     } catch (error) {
         return { data: "Failed to add item to cart: " + (error as Error).message, statusCode: 500 };
     }
@@ -129,8 +137,8 @@ export const updateItemInCart = async ({ userId, productId, quantity }: UpdateIt
         existingCartItem.quantity = quantity;
         cart.totalPrice = total;
 
-        const updatedCart = await cart.save();
-        return { data: updatedCart, statusCode: 200 };
+        await cart.save();
+        return { data: await getActiveCartForUser({ userId, populate: true }), statusCode: 200 };
     } catch (error) {
         return { data: "Failed to update cart item: " + (error as Error).message, statusCode: 500 };
     }
@@ -158,8 +166,8 @@ export const removeItemFromCart = async ({ userId, itemId }: RemoveItemFromCart)
 
         cart.totalPrice = total;
         cart.items = otherCartItems;
-        const updatedCart = await cart.save();
-        return { data: updatedCart, statusCode: 200 };
+       await cart.save();
+        return { data: await getActiveCartForUser({ userId, populate: true }), statusCode: 200 };
     } catch (error) {
         return { data: "Failed to remove item from cart: " + (error as Error).message, statusCode: 500 };
     }

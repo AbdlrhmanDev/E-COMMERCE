@@ -48,14 +48,8 @@ export const seedInitialProducts = async (): Promise<{ success: boolean; message
             stock: 60,
             description: "RGB gaming mouse with programmable buttons"
         },
-        {
-            name: "Mechanical Gaming Keyboard",
-            image: "https://images.unsplash.com/photo-1595225476473-7712d5f9b31c?w=500&auto=format",
-            price: 149.99,
-            category: "Electronics",
-            stock: 45,
-            description: "RGB mechanical keyboard with customizable keys"
-        },
+        
+     
         {
             name: "Portable Bluetooth Speaker",
             image: "https://images.unsplash.com/photo-1608043152269-423dbba4e7e1?w=500&auto=format",
@@ -72,14 +66,7 @@ export const seedInitialProducts = async (): Promise<{ success: boolean; message
             stock: 55,
             description: "1080p security camera with night vision and motion detection"
         },
-        {
-            name: "Wireless Charging Pad",
-            image: "https://images.unsplash.com/photo-1618577608401-189f1d9b6d1c?w=500&auto=format",
-            price: 39.99,
-            category: "Electronics",
-            stock: 120,
-            description: "Fast wireless charging pad compatible with all Qi devices"
-        },
+      
         {
             name: "Smart LED Light Strip",
             image: "https://images.unsplash.com/photo-1507473885765-e6ed057f782c?w=500&auto=format",

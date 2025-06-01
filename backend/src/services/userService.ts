@@ -1,9 +1,11 @@
 import { UserModel } from "../models/userModel";
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
+import { OrderModel } from "../models/orderModel";
 
 // Interface for user registration parameters
 interface RegisterParams {
+    
     firstName: string;
     lastName: string;
     email: string;
@@ -11,10 +13,8 @@ interface RegisterParams {
 }
 
 // Registers a new user in the system   
-export const registerUser = async (params: RegisterParams) => {
+export const registerUser = async ({firstName, lastName, email, password} : RegisterParams) => {
     try {
-        const {firstName, lastName, email, password} = params;
-        
         // Check if user already exists
         const findUser = await UserModel.findOne({email});
         if(findUser){
@@ -41,9 +41,8 @@ interface LoginParams {
 }
 
 // Authenticates a user's login attempt 
-export const loginUser = async (params: LoginParams) => {   
+export const loginUser = async ({email, password} : LoginParams) => {   
     try {
-        const {email, password} = params;
         
         // Find user by email
         const findUser = await UserModel.findOne({email});
@@ -63,6 +62,21 @@ export const loginUser = async (params: LoginParams) => {
     }
 }
 const generateToken = (user: any) => {
-    const token = jwt.sign(user , process.env.JWT_SECRET || "" ,{expiresIn : '1h'} );
+    const token = jwt.sign(user ,"mec7fsReLFZMjEj7jxXdPCZ926tEZrBD" );
     return token;
 }
+
+interface GetOrdersByUserIdParams {
+    userId: string;
+}
+
+export const getOrdersByUserId = async ({userId} : GetOrdersByUserIdParams) => {
+    try {
+        const orders = await OrderModel.find({userId});
+        return orders;
+    } catch (error) {
+        console.error('Error in getOrdersByUserId:', error);
+        return {data: "An error occurred during getOrdersByUserId", statusCode: 500};
+    }
+}
+
