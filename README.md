@@ -16,7 +16,14 @@ A full-stack e-commerce application built with the MERN stack (MongoDB, Express.
 │   │   └── utils/
 │   └── package.json
 │
-└── frontend/         # React frontend (coming soon)
+└── frontend/         # React frontend
+    ├── src/
+    │   ├── components/
+    │   ├── pages/
+    │   ├── services/
+    │   ├── utils/
+    │   └── App.tsx
+    └── package.json
 ```
 
 ## Getting Started
@@ -51,17 +58,62 @@ A full-stack e-commerce application built with the MERN stack (MongoDB, Express.
    npm run dev
    ```
 
-### Frontend Setup (Coming Soon)
+### Frontend Setup
 
-The frontend part of the application will be added soon.
+1. Navigate to the frontend directory:
+   ```bash
+   cd frontend
+   ```
+
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
+
+3. Create a `.env` file in the frontend directory with the following variables:
+   ```
+   VITE_API_URL=http://localhost:5000
+   ```
+
+4. Start the development server:
+   ```bash
+   npm run dev
+   ```
 
 ## Features
 
 - User authentication (register/login)
 - Product management
-- Shopping cart
+- Shopping cart functionality
 - Order processing
 - Admin dashboard
+- Responsive design
+- Secure payment integration
+- User profile management
+- Product search and filtering
+- Order tracking
+
+## Tech Stack
+
+### Backend
+- Node.js & Express.js
+- MongoDB with Mongoose
+- JWT Authentication
+- Express Validator
+- Bcrypt for password hashing
+
+### Frontend
+- React with TypeScript
+- Vite for build tooling
+- React Router for navigation
+- Axios for API calls
+- Tailwind CSS for styling
+- React Query for state management
+
+## Development
+
+- Backend runs on: http://localhost:5000
+- Frontend runs on: http://localhost:5173
 
 ## License
 

@@ -24,10 +24,11 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
-            <Route path="/products" element={<Products />} />            <Route element={<ProtectedRoute />}>
+            <Route path="/products" element={<Products />} />         
+               <Route element={<ProtectedRoute />}>
               <Route path="/cart" element={<Cart />} />
               <Route path="/checkout" element={<Checkout />} />
-              <Route path="/my-orders" element={<Orders />} />
+              <Route path="/orders" element={<Orders />} />
                 <Route path="/order-Success" element={<OrderSuccess />} />
             </Route>
             <Route path="*" element={<NotFound />} />
